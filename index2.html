@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Bar Beer Menu</title>
+  <meta name="description" content="Our curated beer menu: IPAs, Lagers, Pale Ales, Sours, Stouts and more.">
+  <!-- Add a favicon and external stylesheet in the future -->
+  <style>
+    :root{
+      --bg:#fcfcfc;
+      --text:#333;
+      --accent:#d35400;
+      --nav-bg:#2c3e50;
+      --muted:#7f8c8d;
+      --card:#fff;
+      --gap:12px;
+      --radius:6px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      max-width:1000px;
+      margin:0 auto;
+      padding:20px;
+      background:var(--bg);
+      color:var(--text);
+      scroll-behavior:smooth;
+      line-height:1.45;
+    }
+
+    .skip-link{
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .skip-link:focus{
+      left: 12px;
+      top: 12px;
+      width: auto;
+      height: auto;
+      background:#fff;
+      padding:8px 12px;
+      border-radius:4px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      z-index:1001;
+    }
+
+    header h1{
+      text-align:center;
+      color:#2c3e50;
+      border-bottom:2px solid #f1c40f;
+      padding-bottom:10px;
+      margin-bottom:18px;
+    }
+
+    /* Navigation */
+    nav.nav-menu{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      background:var(--nav-bg);
+      padding:10px;
+      border-radius:8px;
+      position:sticky;
+      top:10px;
+      z-index:1000;
+      box-shadow:0 4px 6px rgba(0,0,0,0.12);
+      margin-bottom:18px;
+    }
+    nav.nav-menu ul{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    nav.nav-menu a{
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.95rem;
+      padding:8px 12px;
+      border-radius:6px;
+      transition:background-color .18s ease;
+    }
+    nav.nav-menu a:hover,
+    nav.nav-menu a:focus{
+      background:var(--accent);
+      outline: none;
+    }
+
+    main{padding-top:6px}
+
+    .category-title{
+      color:var(--accent);
+      border-bottom:1px solid #e6e6e6;
+      padding-bottom:6px;
+      margin-top:36px;
+      text-transform:uppercase;
+      font-size:1.25rem;
+      letter-spacing:1px;
+      scroll-margin-top:84px; /* avoid sticky nav */
+    }
+
+    .beer-list{
+      margin-top:12px;
+      display:grid;
+      gap:14px;
+    }
+
+    article.beer-item{
+      background:var(--card);
+      padding:14px;
+      border-radius:var(--radius);
+      box-shadow:0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    .beer-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:12px;
+      margin-bottom:8px;
+    }
+    .beer-name{font-size:1.125rem;font-weight:700;color:#2c3e50}
+    .brewery{font-style:italic;color:var(--muted);font-size:0.95rem}
+
+    .description{margin:6px 0;color:#555}
+
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px dashed #eee;
+      font-size:0.95rem;
+    }
+    .meta li{list-style:none;background:#f8f9fa;padding:8px 10px;border-radius:6px;color:var(--muted)}
+    .meta .sizes{background:#ebf5fb;color:#2980b9;font-weight:600}
+    .meta .stats{background:#f8f9fa;color:var(--muted);font-weight:600}
+
+    /* Responsive */
+    @media (min-width:720px){
+      .beer-list{grid-template-columns:repeat(2, minmax(0,1fr))}
+    }
+    @media (min-width:1000px){
+      body{padding:28px}
+      .beer-list{grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
+
+    /* Focus outline for accessibility */
+    a:focus, button:focus {
+      outline: 3px solid #ffd87d;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header>
+    <h1>Our Beer Menu</h1>
+  </header>
+
+  <nav class="nav-menu" aria-label="Beer categories">
+    <ul>
+      <li><a href="#ipa">IPA</a></li>
+      <li><a href="#light-lagers">Light Lagers</a></li>
+      <li><a href="#lagers">Lagers</a></li>
+      <li><a href="#pale-ales">Pale Ales</a></li>
+      <li><a href="#ciders">Ciders</a></li>
+      <li><a href="#wheats">Wheats</a></li>
+      <li><a href="#sours">Sours</a></li>
+      <li><a href="#stouts">Stouts</a></li>
+      <li><a href="#others">Others</a></li>
+      <li><a href="#beer-of-the-week">Beer of the Week</a></li>
+    </ul>
+  </nav>
+
+  <main id="main" role="main">
+    <!-- IPA -->
+    <section id="ipa" aria-labelledby="h-ipa">
+      <h2 id="h-ipa" class="category-title">IPA</h2>
+      <div class="beer-list">
+        <article class="beer-item" data-category="ipa" data-abv="7.3">
+          <header class="beer-header">
+            <span class="beer-name">Hopsecutioner IPA</span>
+            <span class="brewery">Terrapin Brewing</span>
+          </header>
+          <p class="description">A bold, aromatic IPA brewed with six premium American hop varieties. A touch of caramel malt balances the hop character.</p>
+          <ul class="meta" aria-label="Hopsecutioner details">
+            <li class="stats"><strong>Hops:</strong> Warrior, Chinook, Centennial, Simcoe, Amarillo (Dry Hop: Cascade)</li>
+            <li class="stats"><strong>Malts:</strong> 2-Row, Crystal 24L, Victory</li>
+            <li class="stats"><strong>ABV:</strong> 7.3% — <strong>Calories:</strong> 210 — <strong>Carbs:</strong> 15.4g — <strong>IBU:</strong> 58–78</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-category="ipa" data-abv="6.6">
+          <header class="beer-header">
+            <span class="beer-name">Tropicalia IPA</span>
+            <span class="brewery">Creature Comforts</span>
+          </header>
+          <p class="description">Balanced, soft, and juicy with passionfruit and citrus hop aroma. Fruit-forward hop flavor with a pleasant finish.</p>
+          <ul class="meta" aria-label="Tropicalia details">
+            <li class="stats"><strong>Hops:</strong> Citra, Centennial, Galaxy</li>
+            <li class="stats"><strong>ABV:</strong> 6.6% — <strong>Calories:</strong> 200 — <strong>Carbs:</strong> 15–18g — <strong>IBU:</strong> 50–65</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <!-- Additional IPA items (Coral Head, Space Dust, Sensory Overload, Sunshine Daydream) -->
+        <article class="beer-item" data-category="ipa" data-abv="7.0">
+          <header class="beer-header">
+            <span class="beer-name">Coral Head IPA</span>
+            <span class="brewery">Tampa Bay Brewing Co.</span>
+          </header>
+          <p class="description">Notes of stone fruit, passion fruit, papaya, and citrus — a tropical-forward IPA with medium body.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Magnum, Centennial, Citra, Strata, El Dorado</li>
+            <li class="stats"><strong>ABV:</strong> 7.0% — <strong>Calories:</strong> 180–210 — <strong>Carbs:</strong> 16g — <strong>IBU:</strong> 75</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-category="ipa" data-abv="8.2">
+          <header class="beer-header">
+            <span class="beer-name">Space Dust IPA</span>
+            <span class="brewery">Elysian Brewing Co.</span>
+          </header>
+          <p class="description">Bold and drinkable — candied grapefruit, mango, and pine with a medium body and dry finish.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Chinook, Citra, Amarillo</li>
+            <li class="stats"><strong>Malts:</strong> 2-Row, Crystal 24L, Victory</li>
+            <li class="stats"><strong>ABV:</strong> 8.2% — <strong>Calories:</strong> 229–247 — <strong>Carbs:</strong> 15–16g — <strong>IBU:</strong> 73</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-category="ipa" data-abv="6.5">
+          <header class="beer-header">
+            <span class="beer-name">Sensory Overload Hazy IPA</span>
+            <span class="brewery">Ology Beer Co.</span>
+          </header>
+          <p class="description">Juicy citrus and tropical fruit flavors from Citra dry-hops. Light and easy drinking.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Citra (dry-hopped)</li>
+            <li class="stats"><strong>ABV:</strong> 6.5% — <strong>Calories:</strong> 195–210 — <strong>Carbs:</strong> 15–20g — <strong>IBU:</strong> 33</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-category="ipa" data-abv="4.9">
+          <header class="beer-header">
+            <span class="beer-name">Sunshine Daydream Session IPA</span>
+            <span class="brewery">Fat Head Brewery Co.</span>
+          </header>
+          <p class="description">Citrus, tangerine, and tropical hop aromas with a refreshing sessionable body.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Citra, Mosaic, Chinook, Sultana</li>
+            <li class="stats"><strong>Malts:</strong> Pale, Munich, Victory, Crystal 15, Carapils</li>
+            <li class="stats"><strong>ABV:</strong> 4.9% — <strong>Calories:</strong> 150–170 — <strong>Carbs:</strong> 14g — <strong>IBU:</strong> 50</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Light Lagers -->
+    <section id="light-lagers" aria-labelledby="h-light-lagers">
+      <h2 id="h-light-lagers" class="category-title">Light Lagers</h2>
+      <div class="beer-list">
+        <article class="beer-item" data-abv="4.2">
+          <header class="beer-header">
+            <span class="beer-name">Miller Lite</span>
+            <span class="brewery">MillerCoors</span>
+          </header>
+          <p class="description">A crisp, clean light lager with mild grain and a refreshing finish.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Galena, Saaz</li>
+            <li class="stats"><strong>Malts:</strong> Pale Malt, Crystal 15</li>
+            <li class="stats"><strong>ABV:</strong> 4.2% — <strong>Calories:</strong> 96 — <strong>Carbs:</strong> 3.2g</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-abv="4.2">
+          <header class="beer-header">
+            <span class="beer-name">Yuengling Flight</span>
+            <span class="brewery">Yuengling Brewery</span>
+          </header>
+          <p class="description">Crisp, easy-drinking domestic light beer with a clean profile.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Cluster, Cascade</li>
+            <li class="stats"><strong>ABV:</strong> 4.2% — <strong>Calories:</strong> 95 — <strong>Carbs:</strong> 2.6g</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-abv="4.2">
+          <header class="beer-header">
+            <span class="beer-name">Ultra</span>
+            <span class="brewery">Anheuser-Busch</span>
+          </header>
+          <p class="description">Low-calorie lager brewed with select grains and a clean yeast strain.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Herkules</li>
+            <li class="stats"><strong>ABV:</strong> 4.2% — <strong>Calories:</strong> 95 — <strong>Carbs:</strong> 2.6g</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-abv="4.1">
+          <header class="beer-header">
+            <span class="beer-name">Beefs 85</span>
+            <span class="brewery">Anheuser-Busch</span>
+          </header>
+          <p class="description">A lighter-bodied, lower-calorie brew with classic lager taste.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Chinook, Cascade, Tettnanger</li>
+            <li class="stats"><strong>ABV:</strong> 4.1% — <strong>Calories:</strong> 95 — <strong>Carbs:</strong> 3.2g</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-abv="4.1">
+          <header class="beer-header">
+            <span class="beer-name">Back Nine</span>
+            <span class="brewery">Georgia Beer Company — Valdosta, GA</span>
+          </header>
+          <p class="description">A refreshing lager ideal for hot days on the course.</p>
+          <ul class="meta">
+            <li class="stats"><strong>ABV:</strong> 4.0–4.2% — <strong>Calories:</strong> 130 — <strong>Carbs:</strong> 11g</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Lagers -->
+    <section id="lagers" aria-labelledby="h-lagers">
+      <h2 id="h-lagers" class="category-title">Lagers</h2>
+      <div class="beer-list">
+        <article class="beer-item" data-abv="4.5">
+          <header class="beer-header">
+            <span class="beer-name">Yuengling</span>
+            <span class="brewery">D.G. Yuengling & Son</span>
+          </header>
+          <p class="description">America's oldest operating brewing company, offering a balanced amber lager.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Cascade, Cluster</li>
+            <li class="stats"><strong>ABV:</strong> 4.5% — <strong>Calories:</strong> 141 — <strong>Carbs:</strong> 12g — <strong>IBU:</strong> 12</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item">
+          <header class="beer-header">
+            <span class="beer-name">That 70's Beer</span>
+            <span class="brewery">Band Wagon Brewing — Moultrie, GA</span>
+          </header>
+          <p class="description">Crisp, throwback-style American lager brewed locally.</p>
+          <ul class="meta">
+            <li class="stats"><strong>ABV:</strong> (varies)</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-abv="5.1">
+          <header class="beer-header">
+            <span class="beer-name">Suavecito</span>
+            <span class="brewery">Band Wagon Brewing — Moultrie, GA</span>
+          </header>
+          <p class="description">A crisp Mexican-style lager inspired by European brewing tradition.</p>
+          <ul class="meta">
+            <li class="stats"><strong>ABV:</strong> 5.1%</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Pale Ales -->
+    <section id="pale-ales" aria-labelledby="h-pale-ales">
+      <h2 id="h-pale-ales" class="category-title">Pale Ales</h2>
+      <div class="beer-list">
+        <article class="beer-item" data-abv="5.7">
+          <header class="beer-header">
+            <span class="beer-name">SweetWater 420</span>
+            <span class="brewery">SweetWater Brewing — Atlanta, GA</span>
+          </header>
+          <p class="description">West Coast-style pale ale with stimulating hop character.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Cascade, Centennial</li>
+            <li class="stats"><strong>Malts:</strong> 2-Row, Midnight Wheat, Munich, Wheat</li>
+            <li class="stats"><strong>ABV:</strong> 5.7% — <strong>Calories:</strong> 170 — <strong>Carbs:</strong> 12–13g — <strong>IBU:</strong> 39</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Ciders -->
+    <section id="ciders" aria-labelledby="h-ciders">
+      <h2 id="h-ciders" class="category-title">Ciders</h2>
+      <div class="beer-list">
+        <article class="beer-item" data-abv="7.0">
+          <header class="beer-header">
+            <span class="beer-name">Black Widow</span>
+            <span class="brewery">Original Sin</span>
+          </header>
+          <p class="description">Fruit-forward, tart cider made with blackberries and fresh New York apples.</p>
+          <ul class="meta">
+            <li class="stats"><strong>ABV:</strong> 7.0% — <strong>Calories:</strong> 170–180 — <strong>Carbs:</strong> 12–13g</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-abv="5.0">
+          <header class="beer-header">
+            <span class="beer-name">Ace Pear (Perry)</span>
+            <span class="brewery">Ace Craft Cider</span>
+          </header>
+          <p class="description">A refreshing pear cider — America's original pear cider (Perry).</p>
+          <ul class="meta">
+            <li class="stats"><strong>ABV:</strong> 5.0% — <strong>Calories:</strong> 155–170 — <strong>Carbs:</strong> 13g</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+
+        <article class="beer-item" data-abv="5.0">
+          <header class="beer-header">
+            <span class="beer-name">Angry Orchard Crisp Apple</span>
+            <span class="brewery">Boston Beer Company</span>
+          </header>
+          <p class="description">A naturally refreshing hard cider with a balanced sweetness.</p>
+          <ul class="meta">
+            <li class="stats"><strong>ABV:</strong> 5.0% — <strong>Calories:</strong> 155–170 — <strong>Carbs:</strong> 13g</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Wheats -->
+    <section id="wheats" aria-labelledby="h-wheats">
+      <h2 id="h-wheats" class="category-title">Wheats</h2>
+      <div class="beer-list">
+        <article class="beer-item" data-abv="5.4">
+          <header class="beer-header">
+            <span class="beer-name">Blue Moon</span>
+            <span class="brewery">Molson Coors</span>
+          </header>
+          <p class="description">Belgian-style unfiltered wheat ale brewed with oats, coriander, and Valencia orange peel.</p>
+          <ul class="meta">
+            <li class="stats"><strong>ABV:</strong> 5.4% — <strong>Calories:</strong> 170 — <strong>Carbs:</strong> 14g — <strong>IBU:</strong> 9</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Sours -->
+    <section id="sours" aria-labelledby="h-sours">
+      <h2 id="h-sours" class="category-title">Sours</h2>
+      <div class="beer-list">
+        <article class="beer-item" data-abv="6.0">
+          <header class="beer-header">
+            <span class="beer-name">Rainbow Colored Glasses</span>
+            <span class="brewery">Ology Brewery — Tallahassee, FL</span>
+          </header>
+          <p class="description">Fruity, tart, and refreshing sour ale with a bright character.</p>
+          <ul class="meta">
+            <li class="stats"><strong>ABV:</strong> 6.0% — <strong>Calories:</strong> 180–200 — <strong>Carbs:</strong> 14g</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Stouts -->
+    <section id="stouts" aria-labelledby="h-stouts">
+      <h2 id="h-stouts" class="category-title">Stouts</h2>
+      <div class="beer-list">
+        <article class="beer-item" data-abv="6.6">
+          <header class="beer-header">
+            <span class="beer-name">Marcia, Marcia, Marcia</span>
+            <span class="brewery">Band Wagon Brewing — Moultrie, GA</span>
+          </header>
+          <p class="description">A rich stout with roasted malt character and smooth finish.</p>
+          <ul class="meta">
+            <li class="stats"><strong>ABV:</strong> 6.6% — <strong>Calories:</strong> 210–245 — <strong>Carbs:</strong> 15–20g — <strong>IBU:</strong> 38</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Others -->
+    <section id="others" aria-labelledby="h-others">
+      <h2 id="h-others" class="category-title">Others</h2>
+      <div class="beer-list">
+        <article class="beer-item" data-abv="4.4">
+          <header class="beer-header">
+            <span class="beer-name">Kona Big Wave</span>
+            <span class="brewery">Kona Brewing Co.</span>
+          </header>
+          <p class="description">Light, smooth golden ale with bright tropical notes.</p>
+          <ul class="meta">
+            <li class="stats"><strong>Hops:</strong> Galaxy, Citra</li>
+            <li class="stats"><strong>Malts:</strong> Pale 2-Row, Premium, Caramel 20</li>
+            <li class="stats"><strong>ABV:</strong> 4.4% — <strong>Calories:</strong> 132 — <strong>Carbs:</strong> 8.7g — <strong>IBU:</strong> 16</li>
+            <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Beer of the Week -->
+    <section id="beer-of-the-week" aria-labelledby="h-beer-of-week">
+      <h2 id="h-beer-of-week" class="category-title">Beer of the Week</h2>
+      <article class="beer-item" data-abv="4.0">
+        <header class="beer-header">
+          <span class="beer-name">Back Nine</span>
+          <span class="brewery">Georgia Beer Company</span>
+        </header>
+        <p class="description">Why it's our Beer of the Week: refreshing, great flavor, not heavy. Pairs well with burgers or wings.</p>
+        <ul class="meta">
+          <li class="stats"><strong>ABV:</strong> 4.0–4.2% — <strong>Calories:</strong> 130 — <strong>Carbs:</strong> 11g</li>
+          <li class="sizes"><strong>Available in:</strong> Pints · Pilsners · Pitchers</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
